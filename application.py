@@ -19,7 +19,11 @@ except ImportError:
 
 app = Flask(__name__)
 Bootstrap(app)
-app.secret_key = os.urandom(24)
+try:
+	app.secret_key = open('secret.key').read()
+except:
+	app.secret_key = os.urandom(24)
+	open('secret.key', 'w').write(app.secret_key)
 config = json.load(open('config.json'))
 hostlist = hosts.HostList(config)
 

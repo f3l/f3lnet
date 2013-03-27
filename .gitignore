@@ -1,3 +1,4 @@
 *.pyc
 ./hosts.txt
+./secret.key
 config.json
