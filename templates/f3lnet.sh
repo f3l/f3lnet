@@ -27,7 +27,7 @@ case $1 in
 		batctl if add wlan0
 		ip li set wlan0 up
 		ip li set bat0 up
-		ip a add "$my_ip/24" dev bat0
+		ip a add "$my_ip/{{subnet}}" dev bat0
 		set +x
 	;;
 	"stop")

@@ -42,6 +42,7 @@ def f3lnet_sh():
 		essid = config['essid'],
 		bssid = config['bssid'],
 		channel = config['channel'],
+		subnet = config['subnet'].split('/')[1],
 		host_url = "%shosts.txt" % request.url_root
 	))
 	resp.headers['Content-Type'] = 'text/plain'
