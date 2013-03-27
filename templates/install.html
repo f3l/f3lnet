@@ -10,6 +10,7 @@ Make sure, your hostname is added to the <a href="{{url_for('hosts')}}">hostlist
 Then run this commands:
 <pre class="prettyprint">
 wget "<a href="{{url_for('f3lnet_sh')}}">{{request.url_root}}f3lnet.sh</a>" -O /usr/local/bin/f3lnet
+chmod +x /usr/local/bin/f3lnet
 f3lnet refresh
 </pre>
 
