@@ -26,6 +26,7 @@
 			  {{ navlink('install', 'Installation') }}
 			  {{ navlink('hosts', 'Hostlist') }}
 			  {{ navlink('debug', 'Debugging') }}
+              <li><a href="http://github.com/f3l/f3lnet">Source</a></li>
             </ul>
             {% if not 'username' in session %}
             <form class="navbar-form pull-right" action="{{url_for('login')}}" method="POST">
