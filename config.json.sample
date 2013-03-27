@@ -1,0 +1,8 @@
+{
+	"tld": "fn",
+	"essid": "f3lnet",
+	"channel": 2,
+	"bssid": "44:02:DE:AD:BE:EF",
+	"subnet": "44.2.0.0/24",
+	"passwd": "passwd"
+}

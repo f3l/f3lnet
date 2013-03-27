@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block container %}
+<div class="page-header">
+	<h1>Installation</h1>
+</div>
+
+<h3>Installing</h3>
+Make sure, your hostname is added to the <a href="{{url_for('hosts')}}">hostlist</a> and you have the B.A.T.M.A.N. kernel module installed (some distros already ship it per default).<br />
+Then run this commands:
+<pre class="prettyprint">
+wget "<a href="{{url_for('f3lnet_sh')}}">{{request.url_root}}f3lnet.sh</a>" -O /usr/local/bin/f3lnet
+f3lnet refresh
+</pre>
+
+<h3>Starting</h3>
+<pre class="prettyprint">
+f3lnet start
+</pre>
+
+<h3>Using</h3>
+You sould be able to reach the other nodes via <code>hostname.fn</code>. See the <a href="{{url_for('debug')}}">debugging</a> section for B.A.T.M.A.N. layer commands.
+
+<h3>Stopping</h3>
+<pre class="prettyprint">
+f3lnet stop
+</pre>
+{% endblock %}

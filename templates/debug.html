@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block container %}
+<div class="page-header">
+	<h1>Debugging</h1>
+</div>
+
+<h3>Displaying received originators</h3>
+Display a table with the received originator packages from the other nodes, which is refreshed once per second.
+<pre class="prettyprint">
+batctl o
+</pre>
+
+<h3>Pinging</h3>
+Layer-2 ping via B.A.T.M.A.N.
+<pre class="prettyprint">
+batctl p MAC
+</pre>
+
+<h3>Traceroute</h3>
+Layer-2 traceroute via B.A.T.M.A.N.
+<pre class="prettyprint">
+batctl tr MAC
+</pre>
+
+<h3>Tipps</h3>
+<ul>
+	<li>Use the same B.A.T.M.A.N. version on all nodes.</li>
+</ul>
+{% endblock %}

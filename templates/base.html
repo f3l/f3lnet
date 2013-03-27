@@ -1,0 +1,66 @@
+{% extends "bootstrap_responsive.html" %}
+
+{% macro navlink(endpoint,text) %}
+	{%- if request.endpoint.endswith(endpoint) %}
+		<li class='active'><a href='{{url_for(endpoint)}}'>{{text}}</a></li>
+	{% else %}
+		<li><a href='{{url_for(endpoint)}}'>{{text}}</a></li>
+	{%- endif %}
+{% endmacro %}
+
+{% block bootstrap_js_bottom %}
+{{super()}}
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css&skin=desert"></script>
+{% endblock %}
+
+{% block body_content %}
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">F3L Net</a>
+          <div class="">
+            <ul class="nav">
+			  {{ navlink('index', 'Home') }}
+			  {{ navlink('install', 'Installation') }}
+			  {{ navlink('hosts', 'Hostlist') }}
+			  {{ navlink('debug', 'Debugging') }}
+            </ul>
+            {% if not 'username' in session %}
+            <form class="navbar-form pull-right" action="{{url_for('login')}}" method="POST">
+                <input class="span2" type="text" name="user" placeholder="User" />
+                <input class="span2" type="password" name="pass" placeholder="Password" />
+                <input type="hidden" name="endpoint" value="{{request.endpoint}}" />
+                <button type="submit" class="btn">Log in</button>
+            </form>
+            {% else %}
+			<p class="navbar-text pull-right">
+              Logged in as <a href="{{url_for('logout')}}" class="navbar-link" title="Logout">{{ session['username'] }}</a>
+            </p>
+            {% endif %}
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+    {% block messages %}
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flashes">
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}"><strong>{{ category.title() }}: </strong>{{ message|safe }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+    {% endblock %}
+    {% block container %}
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <h1>F3L Mesh Network</h1>
+        <p>Easily setup a B.A.T.M.A.N. network.</p>
+        <p><a href="{{url_for('install')}}" class="btn btn-primary btn-large">Installation &raquo;</a></p>
+      </div>
+	  {% endblock %}
+    </div>
+{% endblock %}
