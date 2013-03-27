@@ -1,0 +1,2 @@
+{%- for host, ip in hosts -%}{{ip}}	{{host}}	#F3LNET
+{% endfor -%}
