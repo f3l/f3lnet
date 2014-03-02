@@ -1,5 +1,16 @@
 #!/bin/bash
 
+if [ -f "/etc/f3lnet.conf" ]; then
+    source /etc/f3lnet.conf
+fi
+
+#if WIFIDEV is set in .conf or globally, do nothing
+# otherwise default to wlan0
+if [ ! $WIFIDEV ]; then
+    echo "\$WIFIDEV not set. Defaulting to wlan0."
+    WIFIDEV='wlan0'
+fi
+
 case $1 in
 	"start")
 		echo "Starting..."
@@ -19,13 +30,13 @@ case $1 in
 		my_ip=`echo $my_entry | awk '{print $1}'`
 		echo "Found entry: \"$my_host\" => \"$my_ip\""
 		set -x
-		ip li set wlan0 down
+		ip li set $WIFIDEV down
 		# batman-adv inserts an additional header of 28 bytes
-		ip li set wlan0 mtu 1528
-		iwconfig wlan0 mode ad-hoc essid {{essid}} channel {{channel}} ap {{bssid}}
+		ip li set $WIFIDEV mtu 1528
+		iwconfig $WIFIDEV mode ad-hoc essid {{essid}} channel {{channel}} ap {{bssid}}
 		modprobe batman_adv
-		batctl if add wlan0
-		ip li set wlan0 up
+		batctl if add $WIFIDEV
+		ip li set $WIFIDEV up
 		ip li set bat0 up
 		ip a add "$my_ip/{{subnet}}" dev bat0
 		set +x
@@ -33,8 +44,8 @@ case $1 in
 	"stop")
 		echo "Stopping..."
 		ip li set bat0 down
-		ip li set wlan0 down
-		batctl if del wlan0
+		ip li set $WIFIDEV down
+		batctl if del $WIFIDEV
 	;;
 	"refresh")
 		newhosts="`curl -s {{host_url}}`"
