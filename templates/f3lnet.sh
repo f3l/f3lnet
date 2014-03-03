@@ -4,12 +4,10 @@ if [ -f "/etc/f3lnet.conf" ]; then
     source /etc/f3lnet.conf
 fi
 
-#if WIFIDEV is set in .conf or globally, do nothing
+# if WIFIDEV is set in .conf or globally, do nothing
 # otherwise default to wlan0
-if [ ! $WIFIDEV ]; then
-    echo "\$WIFIDEV not set. Defaulting to wlan0."
-    WIFIDEV='wlan0'
-fi
+
+: ${WIFIDEV:='wlan0'}
 
 case $1 in
 	"start")
