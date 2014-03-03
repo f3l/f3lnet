@@ -14,6 +14,14 @@ chmod +x /usr/local/bin/f3lnet
 f3lnet refresh
 </pre>
 
+<h3>Configuration</h3>
+If your Wifi-Device has the Identifier "wlan0", everything should work out of the Box.
+Otherweise you may set the variable
+<pre class="prettyprint">
+WIFIDEV='\<identifier\>'
+</pre>
+either as environmental, or in '/etc/f3lnet.conf'.
+
 <h3>Starting</h3>
 <pre class="prettyprint">
 f3lnet start
