@@ -16,6 +16,7 @@ case $1 in
 			hostlist=`grep F3LNET /etc/hosts`
 		else
 			echo "Refresh hostlist first!"
+			echo "'f3lnet.sh refresh'"
 			exit 1
 		fi
 		my_host=`hostname | sed -e 's/\..*//'`
@@ -50,7 +51,7 @@ case $1 in
 		if echo "$newhosts" | grep -q F3LNET ; then
 			sed -i '/F3LNET$/d' /etc/hosts
 			echo "$newhosts" | grep F3LNET >> /etc/hosts
-			echo "Added this hosts:"
+			echo "Added the following hosts:"
 			echo "$newhosts"
 		else
 			echo "HTTP request failed!"
