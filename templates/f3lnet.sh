@@ -11,7 +11,6 @@ fi
 
 case $1 in
 	"start")
-		echo "Starting..."
 		if grep -q F3LNET /etc/hosts ; then
 			hostlist=`grep F3LNET /etc/hosts`
 		else
@@ -27,8 +26,6 @@ case $1 in
 			exit 1
 		fi
 		my_ip=`echo $my_entry | awk '{print $1}'`
-		echo "Found entry: \"$my_host\" => \"$my_ip\""
-		set -x
 		ip li set $WIFIDEV down
 		# batman-adv inserts an additional header of 28 bytes
 		ip li set $WIFIDEV mtu 1528
@@ -38,10 +35,8 @@ case $1 in
 		ip li set $WIFIDEV up
 		ip li set bat0 up
 		ip a add "$my_ip/{{subnet}}" dev bat0
-		set +x
 	;;
 	"stop")
-		echo "Stopping..."
 		ip li set bat0 down
 		ip li set $WIFIDEV down
 		batctl if del $WIFIDEV
