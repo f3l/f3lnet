@@ -29,7 +29,7 @@ case $1 in
 		ip li set $WIFIDEV down
 		# batman-adv inserts an additional header of 28 bytes
 		ip li set $WIFIDEV mtu 1528
-		iwconfig $WIFIDEV mode ad-hoc essid {{essid}} channel {{channel}} ap {{bssid}}
+		iwconfig $WIFIDEV mode ad-hoc essid {{essid}} channel {{channel}} ap {{bssid}} key off
 		modprobe batman_adv
 		batctl if add $WIFIDEV
 		ip li set $WIFIDEV up
