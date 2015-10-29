@@ -4,8 +4,8 @@ if [ -f "/etc/f3lnet.conf" ]; then
     source /etc/f3lnet.conf
 fi
 
-: "${ETHDEV:='eth0'}"
-: "${WIFIDEV:='wlan0'}"
+: "${ETHDEV:=eth0}"
+: "${WIFIDEV:=wlan0}"
 
 handle_help() {
 	echo "For $1 the following actions exist:"
@@ -87,6 +87,7 @@ lan_handle() {
 		"start")
 			parse_hosts
 			ip a add "$my_ip/{{subnet}}" dev "$ETHDEV"
+			ip li set "$ETHDEV" up
 			;;
 		"stop")
 			parse_hosts
