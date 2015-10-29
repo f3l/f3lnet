@@ -4,6 +4,7 @@ if [ -f "/etc/f3lnet.conf" ]; then
     source /etc/f3lnet.conf
 fi
 
+: "${ETHDEV:='eth0'}"
 : "${WIFIDEV:='wlan0'}"
 
 handle_help() {
@@ -17,6 +18,7 @@ f3lnet_help() {
 	echo "  Usage: f3nlet (<service>|refresh|help) <(start|stop)>"
 	echo "where service is one of"
 	echo "  mesh:   BATMAN Wifi meshed network"
+	echo "  lan:    LAN with f3lnet-IP"
 	echo ""
 	echo "  refresh:  Update hostlist"
 	echo "  help:     Print this help message"
@@ -37,7 +39,7 @@ fetch_hosts() {
 	fi
 }
 
-pre_start() {
+parse_hosts() {
 	if grep -q F3LNET /etc/hosts ; then
 		hostlist=$(grep F3LNET /etc/hosts)
 	else
@@ -58,7 +60,7 @@ pre_start() {
 mesh_handle() {
 	case $1 in
 		"start")
-			pre_start
+			parse_hosts
 			ip li set "$WIFIDEV" down
 			# batman-adv inserts an additional header of 28 bytes
 			ip li set "$WIFIDEV" mtu 1528
@@ -80,6 +82,21 @@ mesh_handle() {
 	esac
 }
 
+lan_handle() {
+	case $1 in
+		"start")
+			parse_hosts
+			ip a add "$my_ip/{{subnet}}" dev "$ETHDEV"
+			;;
+		"stop")
+			parse_hosts
+			ip a delete "$my_ip/{{subnet}}" dev "$ETHDEV"
+			;;
+		*)
+			handle_help lan
+			;;
+	esac
+	}
 
 case $1 in
 	"help")
@@ -90,6 +107,9 @@ case $1 in
 		;;
 	"mesh")
 		mesh_handle "$2"
+		;;
+	"lan")
+		lan_handle "$2"
 		;;
 	*)
 		f3lnet_help
